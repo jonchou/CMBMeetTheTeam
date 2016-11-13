@@ -11,6 +11,9 @@ import UIKit
 class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     var collectionView: UICollectionView!
+    var json: Array<Any>!
+    
+    var session = URLSession.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,20 +34,74 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         collectionView.register(PersonCell.self, forCellWithReuseIdentifier: "personCell")
         self.view.addSubview(collectionView)
         
+        initializeJSON()
+    }
+    
+    func initializeJSON() {
+        let url = Bundle.main.url(forResource: "team", withExtension: "json")
+        let data = try! Data(contentsOf: url!)
+        do {
+            let object = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? Array<Any>
+            json = object
+        } catch {
+            // Handle error here
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 19
+        return json.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "personCell", for: indexPath) as! PersonCell
         cell.backgroundColor = UIColor.orange
         // customize each cell here
-        //cell.imageView = UIImage(named: "image")
-        cell.textLabel.text = "Jonathan Chou"
+        configureCell(cell: cell, forIndexPath: indexPath)
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // move to new viewController
+    }
+    
+    func configureCell(cell: PersonCell, forIndexPath: IndexPath) {
+        if let person = json[forIndexPath.row] as? [String: AnyObject] {
+            if let firstName = person["firstName"] as? String {
+                if let lastName = person["lastName"] as? String {
+                    cell.nameTextLabel.text = firstName + " " + lastName
+                }
+            }
+            if let title = person["title"] as? String {
+                cell.titleTextLabel.text = title
+            }
+            if let avatar = person["avatar"] as? String {
+                if let url = URL(string: avatar) {
+                    downloadImage(cell: cell, url: url)
 
+                }
+            }
+        }
+    }
+    
+    func taskForImage(url: URL, completion: @escaping (_ data: Data?, _  response: URLResponse?, _ error: Error?) -> Void) -> URLSessionTask {
+        let request = URLRequest(url: url)
+        let task = session.dataTask(with: request) {
+            (data, response, error) in
+            completion(data, response, error)
+        }
+        task.resume()
+        return task
+    }
+    
+    func downloadImage(cell: PersonCell, url: URL) {
+        let task = taskForImage(url: url) { (data, response, error)  in
+            guard let data = data, error == nil else { return }
+            DispatchQueue.main.async() {
+                cell.imageView.image = UIImage(data: data)
+            }
+        }
+        // Cancels download if cell is still in use
+        cell.taskToCancelIfCellIsReused = task
+    }
 }
 
