@@ -8,22 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		7B0F78751DD7C927003D2FCF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0F78741DD7C927003D2FCF /* AppDelegate.swift */; };
-		7B0F78771DD7C927003D2FCF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0F78761DD7C927003D2FCF /* ViewController.swift */; };
+		7B0F78771DD7C927003D2FCF /* TeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0F78761DD7C927003D2FCF /* TeamViewController.swift */; };
 		7B0F787C1DD7C928003D2FCF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B0F787B1DD7C928003D2FCF /* Assets.xcassets */; };
 		7B0F787F1DD7C928003D2FCF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B0F787D1DD7C928003D2FCF /* LaunchScreen.storyboard */; };
 		7B0F78871DD7CED8003D2FCF /* PersonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0F78861DD7CED8003D2FCF /* PersonCell.swift */; };
 		7B0F78891DD7D46A003D2FCF /* team.json in Resources */ = {isa = PBXBuildFile; fileRef = 7B0F78881DD7D46A003D2FCF /* team.json */; };
+		7BB1925A1DD8190000896861 /* PersonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB192591DD8190000896861 /* PersonViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		7B0F78711DD7C927003D2FCF /* Meet The Team.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Meet The Team.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B0F78741DD7C927003D2FCF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7B0F78761DD7C927003D2FCF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		7B0F78761DD7C927003D2FCF /* TeamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamViewController.swift; sourceTree = "<group>"; };
 		7B0F787B1DD7C928003D2FCF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7B0F787E1DD7C928003D2FCF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7B0F78801DD7C929003D2FCF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7B0F78861DD7CED8003D2FCF /* PersonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonCell.swift; sourceTree = "<group>"; };
 		7B0F78881DD7D46A003D2FCF /* team.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = team.json; sourceTree = "<group>"; };
+		7BB192591DD8190000896861 /* PersonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +59,8 @@
 			isa = PBXGroup;
 			children = (
 				7B0F78741DD7C927003D2FCF /* AppDelegate.swift */,
-				7B0F78761DD7C927003D2FCF /* ViewController.swift */,
+				7B0F78761DD7C927003D2FCF /* TeamViewController.swift */,
+				7BB192591DD8190000896861 /* PersonViewController.swift */,
 				7B0F78861DD7CED8003D2FCF /* PersonCell.swift */,
 				7B0F787B1DD7C928003D2FCF /* Assets.xcassets */,
 				7B0F787D1DD7C928003D2FCF /* LaunchScreen.storyboard */,
@@ -141,8 +144,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				7B0F78871DD7CED8003D2FCF /* PersonCell.swift in Sources */,
-				7B0F78771DD7C927003D2FCF /* ViewController.swift in Sources */,
+				7B0F78771DD7C927003D2FCF /* TeamViewController.swift in Sources */,
 				7B0F78751DD7C927003D2FCF /* AppDelegate.swift in Sources */,
+				7BB1925A1DD8190000896861 /* PersonViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,6 +300,7 @@
 				7B0F78851DD7C929003D2FCF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

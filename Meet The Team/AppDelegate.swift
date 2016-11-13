@@ -12,13 +12,16 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var navController: UINavigationController?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        navController = UINavigationController()
+        let tvc = TeamViewController()
+        navController!.pushViewController(tvc, animated: false)
         window = UIWindow(frame: UIScreen.main.bounds)
-        window!.backgroundColor = UIColor.red
-        window!.rootViewController = ViewController()
+        window!.rootViewController = navController
         window!.makeKeyAndVisible()
         
         return true
