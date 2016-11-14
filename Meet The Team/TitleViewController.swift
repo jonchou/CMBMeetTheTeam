@@ -65,7 +65,7 @@ class TitleViewController: UIViewController {
     
     // MARK: - Animation
     func animButton() {
-        UIView.animate(withDuration: 1.0, delay: 0.75, options: .curveEaseIn, animations: {
+        UIView.animate(withDuration: 0.75, delay: 0.75, options: .curveEaseIn, animations: {
             self.button.alpha = 1.0
         }, completion: nil)
     }
