@@ -17,7 +17,7 @@ class PersonViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = Colors.blueColor
-        let y = (self.navigationController?.navigationBar.frame.height)! + UIApplication.shared.statusBarFrame.height
+        let y = (navigationController?.navigationBar.frame.height)! + UIApplication.shared.statusBarFrame.height
         initializeImage(withInitialHeight: y)
         initializeName(withInitialHeight: y)
         initializeTitle(withInitialHeight: y)
@@ -26,20 +26,20 @@ class PersonViewController: UIViewController {
     
     // MARK: - Initialization
     func initializeImage(withInitialHeight: CGFloat) {
-        let imageView = UIImageView(frame: CGRect(x: view.frame.size.width / 4, y: withInitialHeight + spacing,
-                                                  width: view.frame.size.width / 2, height: view.frame.size.width / 2))
+        let imageView = UIImageView(frame: CGRect(x: view.frame.width / 4, y: withInitialHeight + spacing,
+                                                  width: view.frame.width / 2, height: view.frame.width / 2))
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 20.0
         imageView.layer.borderWidth = 1.0
         imageView.layer.borderColor = UIColor.white.cgColor
-        imageView.image = self.image
+        imageView.image = image
         view.addSubview(imageView)
     }
     
     func initializeName(withInitialHeight: CGFloat) {
         let nameLabel = UILabel(frame: CGRect(x: spacing, y: view.frame.width / 2 + (2*spacing) + withInitialHeight,
-                                              width: view.frame.size.width - (2*spacing), height: 20))
+                                              width: view.frame.width - (2*spacing), height: 20))
         if let personFirstName = person["firstName"] as? String {
             if let personLastName = person["lastName"] as? String {
                 nameLabel.text = personFirstName + " " + personLastName
@@ -75,7 +75,7 @@ class PersonViewController: UIViewController {
         bioLabel.numberOfLines = 25
         bioLabel.adjustsFontSizeToFitWidth = true
         bioLabel.textColor = UIColor.white
-        bioLabel.textAlignment = .center
+        bioLabel.textAlignment = .left
         bioLabel.layer.borderColor = Colors.pinkColor.cgColor
         bioLabel.layer.borderWidth = 2.0
         bioLabel.layer.cornerRadius = 20.0

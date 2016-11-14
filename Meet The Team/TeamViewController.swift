@@ -9,25 +9,28 @@
 import UIKit
 
 class TeamViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-    
     var collectionView: UICollectionView!
     var json: [[String:AnyObject]]?
-    
     var session = URLSession.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Initialize navigation bar
+        // Initialize navigation bar title
         title = "Meet the Team"
         
+        initializeCollectionView()
+        readJSON()
+    }
+    
+    // MARK: - Initialization
+    func initializeCollectionView() {
         // Initializes space between each image
         let widthSpace: CGFloat = 10.0
         let heightSpace: CGFloat = 20.0
         // Sets the width to show 3 cells per row (accounting for insets)
-        let width = (view.frame.size.width - 2*widthSpace - 20) / 3.0
+        let width = (view.frame.width - 2*widthSpace - 20) / 3.0
         // Sets the height to show 4 cells per column (accounting for insets)
-        let height = (view.frame.size.height - 3*heightSpace - 30) / 4.0
+        let height = (view.frame.height - 3*heightSpace - 30) / 4.0
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
@@ -36,17 +39,15 @@ class TeamViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         layout.itemSize = CGSize(width: width, height: height)
         
         // Initialize the collection view
-        collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(PersonCell.self, forCellWithReuseIdentifier: "personCell")
         collectionView.backgroundColor = Colors.blueColor
-        self.view.addSubview(collectionView)
-        
-        initializeJSON()
+        view.addSubview(collectionView)
     }
     
-    func initializeJSON() {
+    func readJSON() {
         let url = Bundle.main.url(forResource: "team", withExtension: "json")
         let data = try! Data(contentsOf: url!)
         do {
@@ -57,21 +58,21 @@ class TeamViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         }
     }
     
+    // MARK: - Collection View Delegate
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return json!.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "personCell", for: indexPath) as! PersonCell
-        cell.backgroundColor = UIColor.clear//UIColor.darkText
+        cell.backgroundColor = UIColor.clear
         // Customize each cell here
         configureCell(cell: cell, forIndexPath: indexPath)
         return cell
     }
     
+    // Segue to next view controller on select
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // move to new viewController
-
         let vc = PersonViewController()
         vc.modalTransitionStyle = .flipHorizontal
         let cell = collectionView.cellForItem(at: indexPath) as! PersonCell
@@ -79,7 +80,7 @@ class TeamViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         if let person = json?[indexPath.row] {
             vc.person = person
         }
-        self.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func configureCell(cell: PersonCell, forIndexPath: IndexPath) {
@@ -95,17 +96,21 @@ class TeamViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
             if let avatar = person["avatar"] as? String {
                 if let url = URL(string: avatar) {
                     downloadImage(cell: cell, url: url)
-
                 }
             }
         }
     }
     
+    // MARK: - Image Download
     func downloadImage(cell: PersonCell, url: URL) {
-        let task = taskForImage(url: url) { (data, response, error)  in
+        cell.activityIndicator.isHidden = false
+        cell.activityIndicator.startAnimating()
+        let task = taskForImage(url: url) {
+            (data, response, error)  in
             guard let data = data, error == nil else { return }
             // Updates image once download is complete
             DispatchQueue.main.async() {
+                cell.activityIndicator.stopAnimating()
                 cell.imageView.image = UIImage(data: data)
             }
         }
@@ -122,7 +127,5 @@ class TeamViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         task.resume()
         return task
     }
-    
-
 }
 

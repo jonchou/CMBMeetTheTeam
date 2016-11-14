@@ -15,18 +15,26 @@ class TitleViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = Colors.blueColor
         
-        // Initialize button
-        button = UIButton(frame: CGRect(x: view.frame.width / 4, y: view.frame.height * 3/4, width: view.frame.width / 2, height: 50))
-        button.setTitle("Meet the Team", for: .normal)
-        button.addTarget(self, action: #selector(buttonTouch), for: .touchUpInside)
-        button.layer.cornerRadius = 10
-        button.layer.borderColor = UIColor.white.cgColor
-        button.layer.borderWidth = 3.0
-        button.backgroundColor = Colors.pinkColor
+        initializeLogo()
+        initializeButton()
+    }
+    
+    // Hide navigation bar
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
+        animButton()
+    }
+    
+    // Show navigation bar
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.isNavigationBarHidden = false
         button.alpha = 0.0
-        view.addSubview(button)
-        
-        // Initialize logo
+    }
+    
+    // MARK: - Initialization
+    func initializeLogo() {
         let logo = UIImageView(image: #imageLiteral(resourceName: "logo"))
         logo.frame = CGRect(x: view.frame.width / 4, y: view.frame.height / 4, width: view.frame.width / 2, height: view.frame.width / 2)
         logo.contentMode = .scaleAspectFill
@@ -36,30 +44,29 @@ class TitleViewController: UIViewController {
         view.addSubview(logo)
     }
     
-    // Hide navigation bar
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = true
-        animButton()
-    }
-    
-    // Show navigation bar
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.navigationController?.isNavigationBarHidden = false
-        self.button.alpha = 0.0
+    func initializeButton() {
+        button = UIButton(frame: CGRect(x: view.frame.width / 4, y: view.frame.height * 3/4, width: view.frame.width / 2, height: 50))
+        button.setTitle("Meet the Team", for: .normal)
+        button.addTarget(self, action: #selector(buttonTouch), for: .touchUpInside)
+        button.layer.cornerRadius = 10
+        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderWidth = 3.0
+        button.backgroundColor = Colors.pinkColor
+        button.alpha = 0.0
+        view.addSubview(button)
     }
     
     // Move to team view controller
     func buttonTouch(sender: UIButton!) {
         let vc = TeamViewController()
         vc.modalTransitionStyle = .flipHorizontal
-        self.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
+    // MARK: - Animation
     func animButton() {
-        UIView.animate(withDuration: 1.0, animations: {
+        UIView.animate(withDuration: 1.0, delay: 0.75, options: .curveEaseIn, animations: {
             self.button.alpha = 1.0
-        })
+        }, completion: nil)
     }
 }
