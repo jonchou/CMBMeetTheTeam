@@ -11,7 +11,7 @@ import UIKit
 class TeamViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     var collectionView: UICollectionView!
-    var json: Array<Any>!
+    var json: [[String:AnyObject]]?
     
     var session = URLSession.shared
 
@@ -40,7 +40,7 @@ class TeamViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(PersonCell.self, forCellWithReuseIdentifier: "personCell")
-        collectionView.backgroundColor = UIColor.darkGray
+        collectionView.backgroundColor = Colors.blueColor
         self.view.addSubview(collectionView)
         
         initializeJSON()
@@ -50,7 +50,7 @@ class TeamViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         let url = Bundle.main.url(forResource: "team", withExtension: "json")
         let data = try! Data(contentsOf: url!)
         do {
-            let object = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? Array<Any>
+            let object = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [[String:AnyObject]]
             json = object
         } catch {
             // Handle error here
@@ -58,7 +58,7 @@ class TeamViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return json.count
+        return json!.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -76,14 +76,14 @@ class TeamViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         vc.modalTransitionStyle = .flipHorizontal
         let cell = collectionView.cellForItem(at: indexPath) as! PersonCell
         vc.image = cell.imageView.image
-        if let person = json[indexPath.row] as? [String: AnyObject] {
+        if let person = json?[indexPath.row] {
             vc.person = person
         }
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func configureCell(cell: PersonCell, forIndexPath: IndexPath) {
-        if let person = json[forIndexPath.row] as? [String: AnyObject] {
+        if let person = json?[forIndexPath.row] {
             if let firstName = person["firstName"] as? String {
                 if let lastName = person["lastName"] as? String {
                     cell.nameTextLabel.text = firstName + " " + lastName
